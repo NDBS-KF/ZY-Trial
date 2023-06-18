@@ -1,0 +1,25 @@
+FUNCTION "TF_AIRPORT_NAMES"( iv_airport_code NVARCHAR(3) )
+    RETURNS table (
+        AIRPORT_NAME NVARCHAR(25),
+        AIRPORT_TIME_ZONE NVARCHAR(6)
+    )
+    LANGUAGE SQLSCRIPT
+    SQL SECURITY INVOKER AS
+BEGIN
+    /*****************************
+        Write your function logic
+    ****************************/
+
+tb_result = SELECT 
+                NAME AS AIRPORT_NAME,
+                TIME_ZONE as AIRPORT_TIME_ZONE
+            FROM
+                "SFLIGHT.db::SAIPORT"
+            WHERE 
+                ID = :iv_airport_code;
+
+
+RETURN select * from :tb_result;
+
+
+END;

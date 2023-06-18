@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="CV_SF_TABLE_FUNCTION" applyPrivilegeType="NONE" dataCategory="DIMENSION" schemaVersion="3.0" hierarchyGeneration="SQL" outputViewType="Projection" cacheInvalidationPeriod="NONE" enforceSqlExecution="true">
+<descriptions defaultDescription="CV_SF_TABLE_FUNCTION"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="SFLIGHT.db::SCITAIRP">
+    <resourceUri>SFLIGHT.db::SCITAIRP</resourceUri>
+  </DataSource>
+  <DataSource id="TF_AIRPORT_ALL" type="TABLE_FUNCTION">
+    <resourceUri>TF_AIRPORT_ALL</resourceUri>
+  </DataSource>
+</dataSources>
+<snapshotProcedures/>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Projection_1">
+    <viewAttributes>
+      <viewAttribute id="CITY"/>
+      <viewAttribute id="COUNTRY"/>
+      <viewAttribute id="AIRPORT"/>
+      <viewAttribute id="MASTERCITY"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="SFLIGHT.db::SCITAIRP"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Projection_2">
+    <viewAttributes>
+      <viewAttribute id="AIRPORT_CODE"/>
+      <viewAttribute id="AIRPORT_NAME"/>
+      <viewAttribute id="AIRPORT_TIME_ZONE"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="TF_AIRPORT_ALL"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_1" cardinality="CN_N" joinType="inner">
+    <viewAttributes>
+      <viewAttribute id="CITY"/>
+      <viewAttribute id="COUNTRY"/>
+      <viewAttribute id="AIRPORT_CODE"/>
+      <viewAttribute id="AIRPORT_NAME"/>
+      <viewAttribute id="AIRPORT_TIME_ZONE"/>
+      <viewAttribute id="MASTERCITY"/>
+      <viewAttribute hidden="true" id="JOIN$AIRPORT$AIRPORT_CODE"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Projection_1">
+      <mapping xsi:type="Calculation:AttributeMapping" target="CITY" source="CITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="COUNTRY" source="COUNTRY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="MASTERCITY" source="MASTERCITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$AIRPORT$AIRPORT_CODE" source="AIRPORT"/>
+    </input>
+    <input node="Projection_2">
+      <mapping xsi:type="Calculation:AttributeMapping" target="AIRPORT_CODE" source="AIRPORT_CODE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="AIRPORT_NAME" source="AIRPORT_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="AIRPORT_TIME_ZONE" source="AIRPORT_TIME_ZONE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$AIRPORT$AIRPORT_CODE" source="AIRPORT_CODE"/>
+    </input>
+    <joinAttribute name="JOIN$AIRPORT$AIRPORT_CODE"/>
+  </calculationView>
+</calculationViews>
+
+<logicalModel id="Join_1">
+  <attributes>
+    <attribute id="CITY" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CITY"/>
+      <keyMapping columnObjectName="Join_1" columnName="CITY"/>
+    </attribute>
+    <attribute id="COUNTRY" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="COUNTRY"/>
+      <keyMapping columnObjectName="Join_1" columnName="COUNTRY"/>
+    </attribute>
+    <attribute id="AIRPORT_CODE" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="AIRPORT_CODE"/>
+      <keyMapping columnObjectName="Join_1" columnName="AIRPORT_CODE"/>
+    </attribute>
+    <attribute id="AIRPORT_NAME" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="AIRPORT_NAME"/>
+      <keyMapping columnObjectName="Join_1" columnName="AIRPORT_NAME"/>
+    </attribute>
+    <attribute id="AIRPORT_TIME_ZONE" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="AIRPORT_TIME_ZONE"/>
+      <keyMapping columnObjectName="Join_1" columnName="AIRPORT_TIME_ZONE"/>
+    </attribute>
+    <attribute id="MASTERCITY" order="6" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="MASTERCITY"/>
+      <keyMapping columnObjectName="Join_1" columnName="MASTERCITY"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures/>
+  <calculatedMeasures/>
+  <restrictedMeasures/></logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="221.11302679000914" y="112"/>
+    
+      <rectangleSize width="160"/>
+    </shape>
+    
+  
+    <shape expanded="true" modelObjectName="Projection_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="92.00000000000001" y="376.9999988079071"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Projection_2" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="302.00000000000006" y="376.9999988079071"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Join_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="221.11302679000914" y="217"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="Projection_1" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="156"/>
+    </shape>
+    <shape modelObjectName="Projection_2" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="203"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

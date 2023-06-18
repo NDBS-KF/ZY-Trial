@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="CUBE_UNION_COL_PRUNING" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" hierarchyGeneration="SQL" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="true">
+<descriptions defaultDescription="CUBE_UNION_COL_PRUNING"/>
+<localVariables/>
+<variableMappings/>
+<executionHints name="query_level_sql_hints" value="RESULT_CACHE"/>
+<executionHints name="qo_pop_hints" value="RESULT_CACHE"/>
+<dataSources>
+  <DataSource id="CUBE_2015">
+    <resourceUri>CUBE_2015</resourceUri>
+  </DataSource>
+  <DataSource id="CUBE_2014">
+    <resourceUri>CUBE_2014</resourceUri>
+  </DataSource>
+</dataSources>
+<snapshotProcedures/>
+<staticResultCache cacheEnabled="true" retentionPeriod="60" force="true"/>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Proj_Current">
+    <viewAttributes>
+      <viewAttribute id="YEAR"/>
+      <viewAttribute id="PRODUCT_PRODUCTID"/>
+      <viewAttribute id="NOTEID"/>
+      <viewAttribute id="CURRENCY"/>
+      <viewAttribute id="NETAMOUNT"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="CUBE_2015"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Proj_Historic">
+    <viewAttributes>
+      <viewAttribute id="YEAR"/>
+      <viewAttribute id="PRODUCT_PRODUCTID"/>
+      <viewAttribute id="NOTEID"/>
+      <viewAttribute id="CURRENCY"/>
+      <viewAttribute id="GROSSAMOUNT"/>
+      <viewAttribute id="NETAMOUNT"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="CUBE_2014"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:UnionView" id="Union_1" columnBasedPruningFlag="true">
+    <viewAttributes>
+      <viewAttribute id="YEAR"/>
+      <viewAttribute id="PRODUCT_PRODUCTID"/>
+      <viewAttribute id="NOTEID"/>
+      <viewAttribute id="CURRENCY"/>
+      <viewAttribute id="NETAMOUNT" aggregationType="sum"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Proj_Current" emptyUnionBehavior="NO_ROW">
+      <mapping xsi:type="Calculation:AttributeMapping" target="YEAR" source="YEAR"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PRODUCT_PRODUCTID" source="PRODUCT_PRODUCTID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="NOTEID" source="NOTEID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CURRENCY" source="CURRENCY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="NETAMOUNT" source="NETAMOUNT"/>
+    </input>
+    <input node="Proj_Historic" emptyUnionBehavior="NO_ROW">
+      <mapping xsi:type="Calculation:AttributeMapping" target="YEAR" source="YEAR"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PRODUCT_PRODUCTID" source="PRODUCT_PRODUCTID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="NOTEID" source="NOTEID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CURRENCY" source="CURRENCY"/>
+      <mapping xsi:type="Calculation:ConstantAttributeMapping" target="NETAMOUNT" null="true" value=""/>
+    </input>
+    <columnBasedPruningAttributes>
+      <columnBasedPruningAttribute id="NETAMOUNT"/>
+    </columnBasedPruningAttributes>
+  </calculationView>
+</calculationViews>
+
+<logicalModel id="Union_1">
+  <attributes>
+    <attribute id="YEAR" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="YEAR"/>
+      <keyMapping columnObjectName="Union_1" columnName="YEAR"/>
+    </attribute>
+    <attribute id="PRODUCT_PRODUCTID" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Product"/>
+      <keyMapping columnObjectName="Union_1" columnName="PRODUCT_PRODUCTID"/>
+    </attribute>
+    <attribute id="NOTEID" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Notes"/>
+      <keyMapping columnObjectName="Union_1" columnName="NOTEID"/>
+    </attribute>
+    <attribute id="CURRENCY" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Currency"/>
+      <keyMapping columnObjectName="Union_1" columnName="CURRENCY"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures>
+    <measure id="NETAMOUNT" order="5" aggregationType="sum" measureType="simple" restrictionExpressionLanguage="SQL">
+      <descriptions defaultDescription="Net Amount"/>
+      <measureMapping columnObjectName="Union_1" columnName="NETAMOUNT"/>
+      <exceptionAggregationMetadata/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+  <localDimensions/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="221" y="112"/>
+    
+      <rectangleSize width="160"/>
+    </shape>
+    
+  
+    <shape expanded="true" modelObjectName="Proj_Current" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="92" y="356"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Proj_Historic" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="302" y="356"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Union_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="221" y="217"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

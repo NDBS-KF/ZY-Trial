@@ -1,0 +1,20 @@
+FUNCTION "TF_CARRIER_NAMES"( in_carrid NVARCHAR(3) )
+    RETURNS table (
+        CARRID NVARCHAR(3),
+        CARRNAME NVARCHAR(20)
+
+    )
+    LANGUAGE SQLSCRIPT
+    SQL SECURITY INVOKER AS
+BEGIN
+    /*****************************
+        Write your function logic
+    ****************************/
+
+    t_carr_name = select carrid, carrname from "SFLIGHT.db::SCARR" where carrid = :in_carrid ;
+
+    return select * from :t_carr_name;
+
+
+
+END;

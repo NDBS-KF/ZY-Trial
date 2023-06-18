@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="CV_KF_BOOKING" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" hierarchyGeneration="SQL" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="true">
+<descriptions defaultDescription="CV_KF_BOOKING"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="SFLIGHT.db::SBOOK">
+    <resourceUri>SFLIGHT.db::SBOOK</resourceUri>
+  </DataSource>
+  <DataSource id="SFLIGHT.db::SCUSTOM">
+    <resourceUri>SFLIGHT.db::SCUSTOM</resourceUri>
+  </DataSource>
+</dataSources>
+<snapshotProcedures/>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Proj_SBOOK">
+    <viewAttributes>
+      <viewAttribute id="SAP_CLIENT"/>
+      <viewAttribute id="CARRID"/>
+      <viewAttribute id="CONNID"/>
+      <viewAttribute id="BOOKID"/>
+      <viewAttribute id="CUSTOMID"/>
+      <viewAttribute id="FORCURAM"/>
+      <viewAttribute id="FORCURKEY"/>
+      <viewAttribute id="LOCCURAM"/>
+      <viewAttribute id="LOCCURKEY"/>
+    </viewAttributes>
+    <calculatedViewAttributes>
+      <calculatedViewAttribute id="CC_NEW_COL" datatype="DECIMAL" length="13" scale="2" expressionLanguage="SQL">
+        <formula>&quot;FORCURAM&quot;*0.2</formula>
+      </calculatedViewAttribute>
+    </calculatedViewAttributes>
+    <input node="SFLIGHT.db::SBOOK">
+      <mapping xsi:type="Calculation:AttributeMapping" target="SAP_CLIENT" source="MANDT"/>
+    </input>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Proj_SCUST">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="ID"/>
+      <viewAttribute id="NAME"/>
+      <viewAttribute id="CITY"/>
+      <viewAttribute id="COUNTRY"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="SFLIGHT.db::SCUSTOM"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_1" cardinality="CN_1" joinType="leftOuter">
+    <viewAttributes>
+      <viewAttribute id="SAP_CLIENT"/>
+      <viewAttribute id="CARRID"/>
+      <viewAttribute id="CONNID"/>
+      <viewAttribute id="BOOKID"/>
+      <viewAttribute id="CUSTOMID"/>
+      <viewAttribute id="FORCURAM" aggregationType="sum"/>
+      <viewAttribute id="FORCURKEY"/>
+      <viewAttribute id="LOCCURAM" aggregationType="sum"/>
+      <viewAttribute id="LOCCURKEY"/>
+      <viewAttribute id="CC_NEW_COL" aggregationType="sum"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Proj_SBOOK">
+      <mapping xsi:type="Calculation:AttributeMapping" target="SAP_CLIENT" source="SAP_CLIENT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CARRID" source="CARRID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CONNID" source="CONNID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="BOOKID" source="BOOKID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMID" source="CUSTOMID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FORCURAM" source="FORCURAM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FORCURKEY" source="FORCURKEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LOCCURAM" source="LOCCURAM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LOCCURKEY" source="LOCCURKEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CC_NEW_COL" source="CC_NEW_COL"/>
+    </input>
+    <input node="Proj_SCUST">
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMID" source="ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SAP_CLIENT" source="MANDT"/>
+    </input>
+    <joinAttribute name="CUSTOMID"/>
+    <joinAttribute name="SAP_CLIENT"/>
+  </calculationView>
+</calculationViews>
+
+<logicalModel id="Join_1">
+  <attributes>
+    <attribute id="SAP_CLIENT" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="SAP Client"/>
+      <keyMapping columnObjectName="Join_1" columnName="SAP_CLIENT"/>
+    </attribute>
+    <attribute id="CARRID" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Carrier ID"/>
+      <keyMapping columnObjectName="Join_1" columnName="CARRID"/>
+    </attribute>
+    <attribute id="CONNID" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Connection ID"/>
+      <keyMapping columnObjectName="Join_1" columnName="CONNID"/>
+    </attribute>
+    <attribute id="BOOKID" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Booking ID"/>
+      <keyMapping columnObjectName="Join_1" columnName="BOOKID"/>
+    </attribute>
+    <attribute id="CUSTOMID" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Customer ID"/>
+      <keyMapping columnObjectName="Join_1" columnName="CUSTOMID"/>
+    </attribute>
+    <attribute id="FORCURKEY" order="7" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="For.Currency Key"/>
+      <keyMapping columnObjectName="Join_1" columnName="FORCURKEY"/>
+    </attribute>
+    <attribute id="LOCCURKEY" order="9" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Loc. Currency Key"/>
+      <keyMapping columnObjectName="Join_1" columnName="LOCCURKEY"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures>
+    <measure id="FORCURAM" order="6" aggregationType="sum" measureType="simple" restrictionExpressionLanguage="SQL">
+      <descriptions defaultDescription="Amount in For.Curr."/>
+      <measureMapping columnObjectName="Join_1" columnName="FORCURAM"/>
+      <exceptionAggregationMetadata/>
+    </measure>
+    <measure id="LOCCURAM" order="8" aggregationType="sum" measureType="simple" restrictionExpressionLanguage="SQL">
+      <descriptions defaultDescription="Amount in Loc. Curr."/>
+      <measureMapping columnObjectName="Join_1" columnName="LOCCURAM"/>
+      <exceptionAggregationMetadata/>
+    </measure>
+    <measure id="CC_NEW_COL" order="10" aggregationType="sum" measureType="simple" restrictionExpressionLanguage="SQL">
+      <descriptions defaultDescription="Discounted Amount in For. Curr."/>
+      <measureMapping columnObjectName="Join_1" columnName="CC_NEW_COL"/>
+      <exceptionAggregationMetadata/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+  <localDimensions/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+    
+  
+    <shape expanded="true" modelObjectName="Proj_SBOOK" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="-96" y="348"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Proj_SCUST" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="173" y="356"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  
+  
+    <shape expanded="true" modelObjectName="Join_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="30" y="206"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="Proj_SBOOK" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="250"/>
+    </shape>
+    <shape modelObjectName="Proj_SCUST" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="140"/>
+    </shape></shapes>
+</layout>
+</Calculation:scenario>

@@ -1,0 +1,23 @@
+PROCEDURE "data_load"( )
+   LANGUAGE SQLSCRIPT
+   SQL SECURITY INVOKER
+   --DEFAULT SCHEMA <default_schema_name>
+   --READS SQL DATA AS
+   AS
+BEGIN
+   /*************************************
+       Write your procedure logic
+   *************************************/
+
+   insert into "SFLIGHT.db::ZZ_SCITAIRP"
+   (MANDANT, CITY, COUNTRY, AIRPORT, MASTERCITY) 
+   (
+     select MANDANT, CITY, COUNTRY, AIRPORT, MASTERCITY
+     from "SFLIGHT.db::SCITAIRP"
+     
+   );
+
+
+
+
+END

@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:AccessControl="http://www.sap.com/ndb/SQLCoreModelAccessControl.ecore" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" xmlns:DataFoundation="http://www.sap.com/ndb/BiModelDataFoundation.ecore" xmlns:Dimension="http://www.sap.com/ndb/BiModelDimension.ecore" xmlns:Privilege="http://www.sap.com/ndb/BiModelPrivilege.ecore" id="CV_SF_BOOKING" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" hierarchyGeneration="SQL" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="true">
+<descriptions defaultDescription="CV_SF_BOOKING"/>
+<localVariables>
+  <variable id="VAR_COUNTRY">
+    <descriptions defaultDescription="Select Country"/>
+    <variableProperties datatype="NVARCHAR" length="3" scale="NaN" mandatory="true" defaultValue="">
+      <valueDomain type="AttributeValue">
+        <attribute name="CUSTOM_COUNTRY"/>
+      </valueDomain>
+      <selection multiLine="false" type="SingleValue"/>
+    </variableProperties>
+  </variable>
+</localVariables>
+<variableMappings/>
+<dataSources>
+  <DataSource id="SFLIGHT.db::SBOOK">
+    <resourceUri>SFLIGHT.db::SBOOK</resourceUri>
+  </DataSource>
+  <DataSource id="SFLIGHT.db::SCUSTOM">
+    <resourceUri>SFLIGHT.db::SCUSTOM</resourceUri>
+  </DataSource>
+  <DataSource id="CV_DIM_DATE">
+    <resourceUri>CV_DIM_DATE</resourceUri>
+  </DataSource>
+  <DataSource id="SFLIGHT.db::SCARR">
+    <resourceUri>SFLIGHT.db::SCARR</resourceUri>
+  </DataSource>
+</dataSources>
+<snapshotProcedures/>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Proj_SBOOK">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="CARRID"/>
+      <viewAttribute id="CONNID"/>
+      <viewAttribute id="FLDATE"/>
+      <viewAttribute id="BOOKID"/>
+      <viewAttribute id="CUSTOMID"/>
+      <viewAttribute id="CUSTTYPE"/>
+      <viewAttribute id="SMOKER"/>
+      <viewAttribute id="LUGGWEIGHT"/>
+      <viewAttribute id="WUNIT"/>
+      <viewAttribute id="INVOICE"/>
+      <viewAttribute id="CLASS"/>
+      <viewAttribute id="FORCURAM"/>
+      <viewAttribute id="FORCURKEY"/>
+      <viewAttribute id="LOCCURAM"/>
+      <viewAttribute id="LOCCURKEY"/>
+      <viewAttribute id="ORDER_DATE"/>
+      <viewAttribute id="COUNTER"/>
+      <viewAttribute id="AGENCYNUM"/>
+      <viewAttribute id="CANCELLED"/>
+      <viewAttribute id="RESERVED"/>
+      <viewAttribute id="PASSNAME"/>
+      <viewAttribute id="PASSFORM"/>
+      <viewAttribute id="PASSBIRTH"/>
+    </viewAttributes>
+    <calculatedViewAttributes>
+      <calculatedViewAttribute id="SMOKER_TXT" datatype="NVARCHAR" length="13" expressionLanguage="SQL">
+        <formula>CASE WHEN &quot;SMOKER&quot; = 'X' then 'Smoker' 
+	 ELSE 'Non-smoker' 
+END </formula>
+      </calculatedViewAttribute>
+    </calculatedViewAttributes>
+    <input node="SFLIGHT.db::SBOOK"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Proj_SCUST" ignoreMultipleOutputsForFilter="false">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="CUSTOMID"/>
+      <viewAttribute id="CUSTOM_NAME"/>
+      <viewAttribute id="CUSTOM_FORM"/>
+      <viewAttribute id="CUSTOM_CITY"/>
+      <viewAttribute id="CUSTOM_COUNTRY"/>
+      <viewAttribute id="CUSTOM_REGION"/>
+      <viewAttribute id="CUSTOM_TELEPHONE"/>
+      <viewAttribute id="CUSTOM_DISCOUNT"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="SFLIGHT.db::SCUSTOM">
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMID" source="ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_NAME" source="NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_FORM" source="FORM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_CITY" source="CITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_COUNTRY" source="COUNTRY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_REGION" source="REGION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_TELEPHONE" source="TELEPHONE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_DISCOUNT" source="DISCOUNT"/>
+    </input>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Proj_DATE">
+    <viewAttributes>
+      <viewAttribute id="DATE_SAP"/>
+      <viewAttribute id="DATETIME_SAP"/>
+      <viewAttribute id="DATE_SQL"/>
+      <viewAttribute id="YEAR_INT"/>
+      <viewAttribute id="QUARTER_INT"/>
+      <viewAttribute id="MONTH_INT"/>
+      <viewAttribute id="WEEK_INT"/>
+      <viewAttribute id="WEEK_YEAR_INT"/>
+      <viewAttribute id="DAY_INT"/>
+      <viewAttribute id="CALQUARTER"/>
+      <viewAttribute id="CALMONTH"/>
+      <viewAttribute id="CALWEEK"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="CV_DIM_DATE"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_1_1" cardinality="CN_1" joinType="leftOuter" optimizeJoinColumns="true" ignoreMultipleOutputsForFilter="false" multiJoinNode="Join_1" multiJoinCentralTable="Proj_SBOOK" multiJoinOrder="Inside Out">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="CARRID"/>
+      <viewAttribute id="CONNID"/>
+      <viewAttribute id="FLDATE"/>
+      <viewAttribute id="BOOKID"/>
+      <viewAttribute id="CUSTOMID"/>
+      <viewAttribute id="CUSTTYPE"/>
+      <viewAttribute id="SMOKER"/>
+      <viewAttribute id="LUGGWEIGHT" aggregationType="sum"/>
+      <viewAttribute id="WUNIT"/>
+      <viewAttribute id="INVOICE"/>
+      <viewAttribute id="CLASS"/>
+      <viewAttribute id="FORCURAM" aggregationType="sum"/>
+      <viewAttribute id="FORCURKEY"/>
+      <viewAttribute id="LOCCURAM" aggregationType="sum"/>
+      <viewAttribute id="LOCCURKEY"/>
+      <viewAttribute id="ORDER_DATE"/>
+      <viewAttribute id="COUNTER"/>
+      <viewAttribute id="AGENCYNUM"/>
+      <viewAttribute id="CANCELLED"/>
+      <viewAttribute id="RESERVED"/>
+      <viewAttribute id="PASSNAME"/>
+      <viewAttribute id="PASSFORM"/>
+      <viewAttribute id="PASSBIRTH"/>
+      <viewAttribute id="SMOKER_TXT"/>
+      <viewAttribute id="CUSTOM_NAME"/>
+      <viewAttribute id="CUSTOM_FORM"/>
+      <viewAttribute id="CUSTOM_CITY"/>
+      <viewAttribute id="CUSTOM_COUNTRY"/>
+      <viewAttribute id="CUSTOM_REGION"/>
+      <viewAttribute id="CUSTOM_TELEPHONE"/>
+      <viewAttribute id="CUSTOM_DISCOUNT"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Proj_SBOOK">
+      <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CARRID" source="CARRID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CONNID" source="CONNID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FLDATE" source="FLDATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="BOOKID" source="BOOKID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMID" source="CUSTOMID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTTYPE" source="CUSTTYPE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SMOKER" source="SMOKER"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LUGGWEIGHT" source="LUGGWEIGHT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="WUNIT" source="WUNIT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="INVOICE" source="INVOICE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CLASS" source="CLASS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FORCURAM" source="FORCURAM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FORCURKEY" source="FORCURKEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LOCCURAM" source="LOCCURAM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LOCCURKEY" source="LOCCURKEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ORDER_DATE" source="ORDER_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="COUNTER" source="COUNTER"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="AGENCYNUM" source="AGENCYNUM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CANCELLED" source="CANCELLED"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RESERVED" source="RESERVED"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PASSNAME" source="PASSNAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PASSFORM" source="PASSFORM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PASSBIRTH" source="PASSBIRTH"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SMOKER_TXT" source="SMOKER_TXT"/>
+    </input>
+    <input node="Proj_SCUST">
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_NAME" source="CUSTOM_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_FORM" source="CUSTOM_FORM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_CITY" source="CUSTOM_CITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_COUNTRY" source="CUSTOM_COUNTRY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_REGION" source="CUSTOM_REGION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_TELEPHONE" source="CUSTOM_TELEPHONE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_DISCOUNT" source="CUSTOM_DISCOUNT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMID" source="CUSTOMID"/>
+    </input>
+    <joinAttribute name="MANDT"/>
+    <joinAttribute name="CUSTOMID"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_1_2" cardinality="CN_1" joinType="leftOuter" optimizeJoinColumns="true" ignoreMultipleOutputsForFilter="false" multiJoinNode="Join_1" multiJoinCentralTable="Proj_SBOOK" multiJoinOrder="Inside Out">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="CARRID"/>
+      <viewAttribute id="CONNID"/>
+      <viewAttribute id="FLDATE"/>
+      <viewAttribute id="BOOKID"/>
+      <viewAttribute id="CUSTOMID"/>
+      <viewAttribute id="CUSTTYPE"/>
+      <viewAttribute id="SMOKER"/>
+      <viewAttribute id="LUGGWEIGHT" aggregationType="sum"/>
+      <viewAttribute id="WUNIT"/>
+      <viewAttribute id="INVOICE"/>
+      <viewAttribute id="CLASS"/>
+      <viewAttribute id="FORCURAM" aggregationType="sum"/>
+      <viewAttribute id="FORCURKEY"/>
+      <viewAttribute id="LOCCURAM" aggregationType="sum"/>
+      <viewAttribute id="LOCCURKEY"/>
+      <viewAttribute id="ORDER_DATE"/>
+      <viewAttribute id="COUNTER"/>
+      <viewAttribute id="AGENCYNUM"/>
+      <viewAttribute id="CANCELLED"/>
+      <viewAttribute id="RESERVED"/>
+      <viewAttribute id="PASSNAME"/>
+      <viewAttribute id="PASSFORM"/>
+      <viewAttribute id="PASSBIRTH"/>
+      <viewAttribute id="SMOKER_TXT"/>
+      <viewAttribute id="CUSTOM_NAME"/>
+      <viewAttribute id="CUSTOM_FORM"/>
+      <viewAttribute id="CUSTOM_CITY"/>
+      <viewAttribute id="CUSTOM_COUNTRY"/>
+      <viewAttribute id="CUSTOM_REGION"/>
+      <viewAttribute id="CUSTOM_TELEPHONE"/>
+      <viewAttribute id="CUSTOM_DISCOUNT"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Join_1_1">
+      <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CARRID" source="CARRID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CONNID" source="CONNID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FLDATE" source="FLDATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="BOOKID" source="BOOKID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMID" source="CUSTOMID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTTYPE" source="CUSTTYPE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SMOKER" source="SMOKER"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LUGGWEIGHT" source="LUGGWEIGHT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="WUNIT" source="WUNIT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="INVOICE" source="INVOICE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CLASS" source="CLASS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FORCURAM" source="FORCURAM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FORCURKEY" source="FORCURKEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LOCCURAM" source="LOCCURAM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LOCCURKEY" source="LOCCURKEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ORDER_DATE" source="ORDER_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="COUNTER" source="COUNTER"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="AGENCYNUM" source="AGENCYNUM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CANCELLED" source="CANCELLED"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RESERVED" source="RESERVED"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PASSNAME" source="PASSNAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PASSFORM" source="PASSFORM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PASSBIRTH" source="PASSBIRTH"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SMOKER_TXT" source="SMOKER_TXT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_NAME" source="CUSTOM_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_FORM" source="CUSTOM_FORM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_CITY" source="CUSTOM_CITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_COUNTRY" source="CUSTOM_COUNTRY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_REGION" source="CUSTOM_REGION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_TELEPHONE" source="CUSTOM_TELEPHONE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_DISCOUNT" source="CUSTOM_DISCOUNT"/>
+    </input>
+    <input node="SFLIGHT.db::SCARR">
+      <mapping xsi:type="Calculation:AttributeMapping" target="CARRID" source="CARRID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+    </input>
+    <joinAttribute name="CARRID"/>
+    <joinAttribute name="MANDT"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_1_3" cardinality="CN_1" joinType="leftOuter" optimizeJoinColumns="true" ignoreMultipleOutputsForFilter="false" multiJoinNode="Join_1" multiJoinCentralTable="Proj_SBOOK" multiJoinOrder="Inside Out">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="CARRID"/>
+      <viewAttribute id="CONNID"/>
+      <viewAttribute id="FLDATE"/>
+      <viewAttribute id="BOOKID"/>
+      <viewAttribute id="CUSTOMID"/>
+      <viewAttribute id="CUSTTYPE"/>
+      <viewAttribute id="SMOKER"/>
+      <viewAttribute id="LUGGWEIGHT" aggregationType="sum"/>
+      <viewAttribute id="WUNIT"/>
+      <viewAttribute id="INVOICE"/>
+      <viewAttribute id="CLASS"/>
+      <viewAttribute id="FORCURAM" aggregationType="sum"/>
+      <viewAttribute id="FORCURKEY"/>
+      <viewAttribute id="LOCCURAM" aggregationType="sum"/>
+      <viewAttribute id="LOCCURKEY"/>
+      <viewAttribute id="ORDER_DATE"/>
+      <viewAttribute id="COUNTER"/>
+      <viewAttribute id="AGENCYNUM"/>
+      <viewAttribute id="CANCELLED"/>
+      <viewAttribute id="RESERVED"/>
+      <viewAttribute id="PASSNAME"/>
+      <viewAttribute id="PASSFORM"/>
+      <viewAttribute id="PASSBIRTH"/>
+      <viewAttribute id="SMOKER_TXT"/>
+      <viewAttribute id="DATE_SQL"/>
+      <viewAttribute id="YEAR_INT" aggregationType="sum"/>
+      <viewAttribute id="QUARTER_INT" aggregationType="sum"/>
+      <viewAttribute id="MONTH_INT" aggregationType="sum"/>
+      <viewAttribute id="WEEK_INT" aggregationType="sum"/>
+      <viewAttribute id="WEEK_YEAR_INT" aggregationType="sum"/>
+      <viewAttribute id="DAY_INT" aggregationType="sum"/>
+      <viewAttribute id="CUSTOM_NAME"/>
+      <viewAttribute id="CUSTOM_FORM"/>
+      <viewAttribute id="CUSTOM_CITY"/>
+      <viewAttribute id="CUSTOM_COUNTRY"/>
+      <viewAttribute id="CUSTOM_REGION"/>
+      <viewAttribute id="CUSTOM_TELEPHONE"/>
+      <viewAttribute id="CUSTOM_DISCOUNT"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Join_1_2">
+      <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CARRID" source="CARRID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CONNID" source="CONNID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FLDATE" source="FLDATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="BOOKID" source="BOOKID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMID" source="CUSTOMID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTTYPE" source="CUSTTYPE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SMOKER" source="SMOKER"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LUGGWEIGHT" source="LUGGWEIGHT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="WUNIT" source="WUNIT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="INVOICE" source="INVOICE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CLASS" source="CLASS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FORCURAM" source="FORCURAM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FORCURKEY" source="FORCURKEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LOCCURAM" source="LOCCURAM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LOCCURKEY" source="LOCCURKEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ORDER_DATE" source="ORDER_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="COUNTER" source="COUNTER"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="AGENCYNUM" source="AGENCYNUM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CANCELLED" source="CANCELLED"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RESERVED" source="RESERVED"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PASSNAME" source="PASSNAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PASSFORM" source="PASSFORM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PASSBIRTH" source="PASSBIRTH"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SMOKER_TXT" source="SMOKER_TXT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_NAME" source="CUSTOM_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_FORM" source="CUSTOM_FORM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_CITY" source="CUSTOM_CITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_COUNTRY" source="CUSTOM_COUNTRY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_REGION" source="CUSTOM_REGION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_TELEPHONE" source="CUSTOM_TELEPHONE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_DISCOUNT" source="CUSTOM_DISCOUNT"/>
+    </input>
+    <input node="Proj_DATE">
+      <mapping xsi:type="Calculation:AttributeMapping" target="DATE_SQL" source="DATE_SQL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="YEAR_INT" source="YEAR_INT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="QUARTER_INT" source="QUARTER_INT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="MONTH_INT" source="MONTH_INT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="WEEK_INT" source="WEEK_INT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="WEEK_YEAR_INT" source="WEEK_YEAR_INT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DAY_INT" source="DAY_INT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FLDATE" source="DATE_SAP"/>
+    </input>
+    <joinAttribute name="FLDATE"/>
+  </calculationView>
+</calculationViews>
+
+<logicalModel id="Join_1_3" filterExpressionLanguage="SQL">
+  <attributes>
+    <attribute id="MANDT" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="MANDT"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="MANDT"/>
+    </attribute>
+    <attribute id="CARRID" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CARRID"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="CARRID"/>
+    </attribute>
+    <attribute id="CONNID" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CONNID"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="CONNID"/>
+    </attribute>
+    <attribute id="FLDATE" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="FLDATE"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="FLDATE"/>
+    </attribute>
+    <attribute id="BOOKID" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="BOOKID"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="BOOKID"/>
+    </attribute>
+    <attribute id="CUSTOMID" order="6" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTOMID"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="CUSTOMID"/>
+    </attribute>
+    <attribute id="CUSTTYPE" order="7" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTTYPE"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="CUSTTYPE"/>
+    </attribute>
+    <attribute id="SMOKER" order="8" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="SMOKER"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="SMOKER"/>
+    </attribute>
+    <attribute id="WUNIT" order="10" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="WUNIT"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="WUNIT"/>
+    </attribute>
+    <attribute id="INVOICE" order="11" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="INVOICE"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="INVOICE"/>
+    </attribute>
+    <attribute id="CLASS" order="12" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CLASS"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="CLASS"/>
+    </attribute>
+    <attribute id="FORCURKEY" order="14" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="FORCURKEY"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="FORCURKEY"/>
+    </attribute>
+    <attribute id="LOCCURKEY" order="16" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="LOCCURKEY"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="LOCCURKEY"/>
+    </attribute>
+    <attribute id="ORDER_DATE" order="17" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ORDER_DATE"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="ORDER_DATE"/>
+    </attribute>
+    <attribute id="COUNTER" order="18" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="COUNTER"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="COUNTER"/>
+    </attribute>
+    <attribute id="AGENCYNUM" order="19" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="AGENCYNUM"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="AGENCYNUM"/>
+    </attribute>
+    <attribute id="CANCELLED" order="20" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CANCELLED"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="CANCELLED"/>
+    </attribute>
+    <attribute id="RESERVED" order="21" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="RESERVED"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="RESERVED"/>
+    </attribute>
+    <attribute id="PASSNAME" order="22" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PASSNAME"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="PASSNAME"/>
+    </attribute>
+    <attribute id="PASSFORM" order="23" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PASSFORM"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="PASSFORM"/>
+    </attribute>
+    <attribute id="PASSBIRTH" order="24" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PASSBIRTH"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="PASSBIRTH"/>
+    </attribute>
+    <attribute id="CUSTOM_NAME" order="25" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="NAME"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="CUSTOM_NAME"/>
+    </attribute>
+    <attribute id="CUSTOM_FORM" order="26" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="FORM"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="CUSTOM_FORM"/>
+    </attribute>
+    <attribute id="CUSTOM_CITY" order="27" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CITY"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="CUSTOM_CITY"/>
+    </attribute>
+    <attribute id="CUSTOM_COUNTRY" order="28" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="COUNTRY"/>
+      <localVariable>VAR_COUNTRY</localVariable>
+      <keyMapping columnObjectName="Join_1_3" columnName="CUSTOM_COUNTRY"/>
+    </attribute>
+    <attribute id="CUSTOM_REGION" order="29" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="REGION"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="CUSTOM_REGION"/>
+    </attribute>
+    <attribute id="CUSTOM_TELEPHONE" order="30" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="TELEPHONE"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="CUSTOM_TELEPHONE"/>
+    </attribute>
+    <attribute id="CUSTOM_DISCOUNT" order="31" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DISCOUNT"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="CUSTOM_DISCOUNT"/>
+    </attribute>
+  
+    <attribute id="DATE_SQL" order="32" semanticType="date" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DATE_SQL"/>
+  
+      <keyMapping columnObjectName="Join_1_3" columnName="DATE_SQL"/>
+  
+    </attribute>
+    <attribute id="YEAR_INT" order="33" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="YEAR_INT"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="YEAR_INT"/>
+    </attribute>
+    <attribute id="QUARTER_INT" order="34" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="QUARTER_INT"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="QUARTER_INT"/>
+    </attribute>
+    <attribute id="MONTH_INT" order="35" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="MONTH_INT"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="MONTH_INT"/>
+    </attribute>
+    <attribute id="WEEK_INT" order="36" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="WEEK_INT"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="WEEK_INT"/>
+    </attribute>
+    <attribute id="WEEK_YEAR_INT" order="37" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="WEEK_YEAR_INT"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="WEEK_YEAR_INT"/>
+    </attribute>
+    <attribute id="DAY_INT" order="38" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DAY_INT"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="DAY_INT"/>
+    </attribute>
+  
+    <attribute id="SMOKER_TXT" order="39" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="SMOKER_TXT"/>
+  
+      <keyMapping columnObjectName="Join_1_3" columnName="SMOKER_TXT"/>
+  
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures>
+    <measure id="LUGGWEIGHT" order="9" aggregationType="sum" measureType="simple" restrictionExpressionLanguage="SQL">
+      <descriptions defaultDescription="LUGGWEIGHT"/>
+      <measureMapping columnObjectName="Join_1_3" columnName="LUGGWEIGHT"/>
+      <exceptionAggregationMetadata/>
+    </measure>
+    <measure id="FORCURAM" order="13" aggregationType="sum" measureType="simple" restrictionExpressionLanguage="SQL">
+      <descriptions defaultDescription="FORCURAM"/>
+      <measureMapping columnObjectName="Join_1_3" columnName="FORCURAM"/>
+      <exceptionAggregationMetadata/>
+    </measure>
+    <measure id="LOCCURAM" order="15" aggregationType="sum" measureType="simple" restrictionExpressionLanguage="SQL">
+      <descriptions defaultDescription="LOCCURAM"/>
+      <measureMapping columnObjectName="Join_1_3" columnName="LOCCURAM"/>
+      <exceptionAggregationMetadata/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures>
+    <measure id="NO_OF_CUSTOMERS" order="40" aggregationType="sum" measureType="simple" calculatedMeasureType="counter" datatype="BIGINT" length="" restrictionExpressionLanguage="SQL">
+      <descriptions defaultDescription="NO_OF_CUSTOMERS"/>
+      <exceptionAggregation>
+        <attribute attributeName="CUSTOMID"/>
+      </exceptionAggregation>
+      <formula>1</formula>
+      
+      
+      <exceptionAggregationMetadata/>
+    </measure>
+    <measure id="NO_OF_CUST_2" order="41" aggregationType="sum" measureType="simple" calculatedMeasureType="counter" datatype="BIGINT" length="" restrictionExpressionLanguage="SQL">
+      <descriptions defaultDescription="NO_OF_CUST_2"/>
+      <exceptionAggregation>
+        <attribute attributeName="CUSTOMID"/>
+      </exceptionAggregation>
+      <formula>1</formula>
+      
+      
+      <exceptionAggregationMetadata/>
+    </measure>
+  
+    <measure id="DISCOUNTED_AMOUNT" order="43" aggregationType="sum" measureType="simple" datatype="DECIMAL" length="13" scale="3" expressionLanguage="SQL" restrictionExpressionLanguage="SQL">
+      <formula>&quot;SF_APPLY_DISCOUNT&quot;(&quot;LOCCURAM&quot;, 0.2)</formula>
+      <exceptionAggregationMetadata/>
+    </measure>
+  </calculatedMeasures>
+  <restrictedMeasures>
+    <measure id="AMOUNT_C_CLASS" order="42" aggregationType="sum" datatype="DECIMAL" length="15" scale="2" baseMeasure="LOCCURAM" restrictionExpressionLanguage="SQL">
+      <descriptions defaultDescription="C Class Customer Amount"/>
+      <restriction logicalOperator="AND">
+        <filter xsi:type="Privilege:AttributeFilter" attributeName="CLASS">
+          <valueFilter xsi:type="AccessControl:SingleValueFilter" including="true" value="C"/>
+        </filter>
+        <attributeName>CLASS</attributeName>
+      </restriction>
+      
+      <exceptionAggregationMetadata/>
+    </measure>
+  </restrictedMeasures>
+  <localDimensions>
+    <localDimension id="DATE_HIER">
+      <attributeRef xsi:type="DataFoundation:Attribute">YEAR_INT</attributeRef>
+      <attributeRef xsi:type="DataFoundation:Attribute">QUARTER_INT</attributeRef>
+      <attributeRef xsi:type="DataFoundation:Attribute">MONTH_INT</attributeRef>
+      <attributeRef xsi:type="DataFoundation:Attribute">FLDATE</attributeRef>
+      <hierarchies>
+        <hierarchy xsi:type="Dimension:LeveledHierarchy" id="DATE_HIER" aggregateAllNodes="true" orphanedNodesHandling="ROOT_NODES" rootNodeVisibility="ADD_ROOT_NODE" withRootNode="true" nodeStyle="NAME_PATH_ENFORCED" cacheEnabled="true" cycleHandling="BREAKUP" emptyValueIsNull="true">
+          <descriptions defaultDescription="Date hierarchy"/>
+          <unassignedMemberProperties mode="FALSE"/>
+          <levels>
+            <level levelAttribute="YEAR_INT" levelType="MDLEVEL_TYPE_REGULAR" order="1" orderAttribute="YEAR_INT" sortDirection="ASC"/>
+            <level levelAttribute="QUARTER_INT" levelType="MDLEVEL_TYPE_REGULAR" order="2" orderAttribute="QUARTER_INT" sortDirection="ASC"/>
+            <level levelAttribute="MONTH_INT" levelType="MDLEVEL_TYPE_REGULAR" order="3" orderAttribute="MONTH_INT" sortDirection="ASC"/>
+            <level levelAttribute="FLDATE" levelType="MDLEVEL_TYPE_REGULAR" order="4" orderAttribute="FLDATE" sortDirection="ASC"/>
+          </levels>
+        </hierarchy>
+      </hierarchies>
+    </localDimension>
+  </localDimensions>
+
+
+  <filter>&quot;LOCCURAM&quot; &gt;= 500</filter>
+
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="361" y="112"/>
+    
+      <rectangleSize width="160"/>
+    </shape>
+    
+  
+    <shape expanded="true" modelObjectName="Proj_SBOOK" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="91" y="406"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Proj_SCUST" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="512" y="406"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Proj_DATE" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="302" y="406"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="Join_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="302" y="236"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="Proj_SCUST" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_1">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="206"/>
+    </shape>
+    <shape modelObjectName="SFLIGHT.db::SCARR" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_1">
+      <upperLeftCorner x="377" y="267"/>
+      <rectangleSize width="182"/>
+    </shape>
+    <shape modelObjectName="Proj_SBOOK" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_1">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="250"/>
+    </shape>
+    <shape modelObjectName="Proj_DATE" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_1">
+      <upperLeftCorner x="664" y="115"/>
+      <rectangleSize width="178"/>
+    </shape></shapes>
+</layout>
+</Calculation:scenario>

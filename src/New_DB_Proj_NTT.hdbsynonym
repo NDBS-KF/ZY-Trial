@@ -1,0 +1,98 @@
+{
+  "SFLIGHT.db::SBOOK": {
+    "target": {
+      "object": "SBOOK",
+      "schema": "SFLIGHT"
+    }
+  },
+  "SFLIGHT.db::SCUSTOM": {
+    "target": {
+      "object": "SCUSTOM",
+      "schema": "SFLIGHT"
+    }
+  },
+  "TRAVEL.db::ROOM": {
+    "target": {
+      "object": "ROOM",
+      "schema": "TRAVEL"
+    }
+  },
+  "TRAVEL.db::CITY": {
+    "target": {
+      "object": "VT_city",
+      "schema": "TRAVEL"
+    }
+  },
+  "SFLIGHT.db::SAIPORT": {
+    "target": {
+      "object": "SAIRPORT",
+      "schema": "SFLIGHT"
+    }
+  },
+  "SFLIGHT.db::SAPLANE": {
+    "target": {
+      "object": "SAPLANE",
+      "schema": "SFLIGHT"
+    }
+  },
+  "SFLIGHT.db::STICKET": {
+    "target": {
+      "object": "STICKET",
+      "schema": "SFLIGHT"
+    }
+  },
+  "SFLIGHT.db::SCARR": {
+    "target": {
+      "object": "SCARR",
+      "schema": "SFLIGHT"
+    }
+  },
+  "SFLIGHT.db::SCARPLAN": {
+    "target": {
+      "object": "SCARPLAN",
+      "schema": "SFLIGHT"
+    }
+  },
+  "SFLIGHT.db::SCITAIRP": {
+    "target": {
+      "object": "SCITAIRP",
+      "schema": "SFLIGHT"
+    }
+  },
+  "SFLIGHT.db::SINVOICE": {
+    "target": {
+      "object": "SNVOICE",
+      "schema": "SFLIGHT"
+    }
+  },
+  "SFLIGHT.db::SCOUNTER": {
+    "target": {
+      "object": "SCOUNTER",
+      "schema": "SFLIGHT"
+    }
+  },
+  "HIST_DL.db::VT_SCITAIRP_HIST_2": {
+    "target": {
+      "object": "VT_SCITAIRP_HIST_2",
+      "schema": "SFLIGHT"
+    }
+  },
+  "SFLIGHT.db::ZZ_SCITAIRP": {
+    "target": {
+      "object": "ZZ_SCITAIRP",
+      "schema": "SFLIGHT"
+    }
+  },
+  "SFL_DL.db::SCITAIRP_HIST_2": {
+    "target": {
+      "object": "SCITAIRP_HIST_2",
+      "schema": "SYSRDL#CG"
+    }
+  },
+  "VT_SQL.db::VT_CUSTOMER": {
+    "target": {
+      "object": "VT_CUSTOMER",
+      "schema": "SFLIGHT"
+    }
+  }
+}

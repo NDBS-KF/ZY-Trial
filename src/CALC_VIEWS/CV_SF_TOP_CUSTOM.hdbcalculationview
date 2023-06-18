@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="CV_SF_TOP_CUSTOM" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" hierarchyGeneration="SQL" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="true">
+<descriptions defaultDescription="CV_SF_TOP_CUSTOM"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="CV_SF_BOOKING">
+    <resourceUri>CV_SF_BOOKING</resourceUri>
+  </DataSource>
+</dataSources>
+<snapshotProcedures/>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Projection_1">
+    <viewAttributes>
+      <viewAttribute id="CUSTOMID"/>
+      <viewAttribute id="CUSTOM_NAME"/>
+      <viewAttribute id="CUSTOM_COUNTRY"/>
+      <viewAttribute id="LOCCURAM"/>
+      <viewAttribute id="LOCCURKEY"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="CV_SF_BOOKING"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:RankView" id="Rank_1">
+    <viewAttributes>
+      <viewAttribute id="CUSTOMID"/>
+      <viewAttribute id="CUSTOM_NAME"/>
+      <viewAttribute id="CUSTOM_COUNTRY"/>
+      <viewAttribute id="LOCCURAM" aggregationType="sum"/>
+      <viewAttribute id="LOCCURKEY"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Projection_1"/>
+    <rankingFilter type="RANK" offset="0" offsetReference="FRONT" dynamicPartitionAttributes="false">
+      <partitionViewAttributeName id="CUSTOM_COUNTRY"/>
+      <order byViewAttributeName="LOCCURAM" direction="DESC"/>
+      <rankThreshold>
+        <value>10</value>
+      </rankThreshold>
+      <rankViewAttributeName>Rank_Column</rankViewAttributeName>
+    </rankingFilter>
+  </calculationView>
+</calculationViews>
+
+<logicalModel id="Rank_1">
+  <attributes>
+    <attribute id="Rank_Column" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Rank_Column"/>
+      <keyMapping columnObjectName="Rank_1" columnName="Rank_Column"/>
+    </attribute>
+    <attribute id="CUSTOMID" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTOMID"/>
+      <keyMapping columnObjectName="Rank_1" columnName="CUSTOMID"/>
+    </attribute>
+    <attribute id="CUSTOM_NAME" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="NAME"/>
+      <keyMapping columnObjectName="Rank_1" columnName="CUSTOM_NAME"/>
+    </attribute>
+    <attribute id="CUSTOM_COUNTRY" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTOM_COUNTRY"/>
+      <keyMapping columnObjectName="Rank_1" columnName="CUSTOM_COUNTRY"/>
+    </attribute>
+    <attribute id="LOCCURKEY" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="LOCCURKEY"/>
+      <keyMapping columnObjectName="Rank_1" columnName="LOCCURKEY"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures>
+    <measure id="LOCCURAM" order="6" aggregationType="sum" measureType="simple" restrictionExpressionLanguage="SQL">
+      <descriptions defaultDescription="LOCCURAM"/>
+      <measureMapping columnObjectName="Rank_1" columnName="LOCCURAM"/>
+      <exceptionAggregationMetadata/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+  <localDimensions/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="100" y="105"/>
+    
+      <rectangleSize width="160"/>
+    </shape>
+    
+  
+    <shape expanded="true" modelObjectName="Projection_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="84" y="331"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Rank_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="84" y="220"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

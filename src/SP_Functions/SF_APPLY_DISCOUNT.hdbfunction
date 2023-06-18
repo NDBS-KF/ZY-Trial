@@ -1,0 +1,16 @@
+FUNCTION "SF_APPLY_DISCOUNT"(
+    im_price DECIMAL (15,2),
+    im_discount DECIMAL (15,2)
+)
+    RETURNS RESULT DECIMAL(15,2)
+    LANGUAGE SQLSCRIPT
+    SQL SECURITY DEFINER AS
+BEGIN
+    /*****************************
+        Write your function logic
+    ****************************/
+
+    RESULT := :im_price - (:im_price * :im_discount);
+
+
+END;

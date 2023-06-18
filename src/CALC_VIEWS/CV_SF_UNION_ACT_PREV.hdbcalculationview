@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="CV_SF_UNION_ACT_PREV" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" hierarchyGeneration="SQL" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="true">
+<descriptions defaultDescription="CV_SF_UNION_ACT_PREV"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="CV_SF_BOOKING">
+    <resourceUri>CV_SF_BOOKING</resourceUri>
+  </DataSource>
+  <DataSource id="Proj_PY$$$$CV_SF_BOOKING$$">
+    <resourceUri>CV_SF_BOOKING</resourceUri>
+  </DataSource>
+</dataSources>
+<snapshotProcedures/>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Proj_CY" filterExpressionLanguage="SQL">
+    <viewAttributes>
+      <viewAttribute id="CARRID"/>
+      <viewAttribute id="CONNID"/>
+      <viewAttribute id="FLDATE"/>
+      <viewAttribute id="BOOKID"/>
+      <viewAttribute id="CUSTOMID"/>
+      <viewAttribute id="LOCCURAM"/>
+      <viewAttribute id="LOCCURKEY"/>
+      <viewAttribute id="CUSTOM_NAME"/>
+      <viewAttribute id="CUSTOM_CITY"/>
+      <viewAttribute id="CUSTOM_COUNTRY"/>
+      <viewAttribute id="CUSTOM_REGION"/>
+      <viewAttribute id="DATE_SQL"/>
+      <viewAttribute id="YEAR_INT"/>
+      <viewAttribute id="QUARTER_INT"/>
+      <viewAttribute id="MONTH_INT"/>
+      <viewAttribute id="WEEK_INT"/>
+      <viewAttribute id="WEEK_YEAR_INT"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="CV_SF_BOOKING"/>
+    <filter>&quot;YEAR_INT&quot;=2011</filter>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Proj_PY" filterExpressionLanguage="SQL">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="CARRID"/>
+      <viewAttribute id="CONNID"/>
+      <viewAttribute id="FLDATE"/>
+      <viewAttribute id="BOOKID"/>
+      <viewAttribute id="CUSTOMID"/>
+      <viewAttribute id="CUSTTYPE"/>
+      <viewAttribute id="SMOKER"/>
+      <viewAttribute id="LUGGWEIGHT"/>
+      <viewAttribute id="WUNIT"/>
+      <viewAttribute id="INVOICE"/>
+      <viewAttribute id="CLASS"/>
+      <viewAttribute id="FORCURAM"/>
+      <viewAttribute id="FORCURKEY"/>
+      <viewAttribute id="LOCCURAM"/>
+      <viewAttribute id="LOCCURKEY"/>
+      <viewAttribute id="ORDER_DATE"/>
+      <viewAttribute id="COUNTER"/>
+      <viewAttribute id="AGENCYNUM"/>
+      <viewAttribute id="CANCELLED"/>
+      <viewAttribute id="RESERVED"/>
+      <viewAttribute id="PASSNAME"/>
+      <viewAttribute id="PASSFORM"/>
+      <viewAttribute id="PASSBIRTH"/>
+      <viewAttribute id="CUSTOM_NAME"/>
+      <viewAttribute id="CUSTOM_FORM"/>
+      <viewAttribute id="CUSTOM_CITY"/>
+      <viewAttribute id="CUSTOM_COUNTRY"/>
+      <viewAttribute id="CUSTOM_REGION"/>
+      <viewAttribute id="CUSTOM_TELEPHONE"/>
+      <viewAttribute id="CUSTOM_DISCOUNT"/>
+      <viewAttribute id="DATE_SQL"/>
+      <viewAttribute id="YEAR_INT"/>
+      <viewAttribute id="QUARTER_INT"/>
+      <viewAttribute id="MONTH_INT"/>
+      <viewAttribute id="WEEK_INT"/>
+      <viewAttribute id="WEEK_YEAR_INT"/>
+      <viewAttribute id="DAY_INT"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Proj_PY$$$$CV_SF_BOOKING$$"/>
+    <filter>&quot;YEAR_INT&quot;=2010</filter>
+  </calculationView>
+  <calculationView xsi:type="Calculation:UnionView" id="Union_1">
+    <viewAttributes>
+      <viewAttribute id="CARRID"/>
+      <viewAttribute id="CONNID"/>
+      <viewAttribute id="FLDATE"/>
+      <viewAttribute id="BOOKID"/>
+      <viewAttribute id="CUSTOMID"/>
+      <viewAttribute id="LOCCURKEY"/>
+      <viewAttribute id="LOCCURAM" aggregationType="sum"/>
+      <viewAttribute id="DATE_SQL"/>
+      <viewAttribute id="YEAR_INT" aggregationType="sum"/>
+      <viewAttribute id="MONTH_INT" aggregationType="sum"/>
+      <viewAttribute id="CUSTOM_NAME"/>
+      <viewAttribute id="CUSTOM_CITY"/>
+      <viewAttribute id="CUSTOM_COUNTRY"/>
+      <viewAttribute id="CUSTOM_REGION"/>
+      <viewAttribute datatype="NVARCHAR" length="13" id="YEAR_TYPE"/>
+      <viewAttribute id="CY_AMOUNT" aggregationType="sum"/>
+      <viewAttribute id="PY_AMOUNT" aggregationType="sum"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Proj_CY" emptyUnionBehavior="NO_ROW">
+      <mapping xsi:type="Calculation:AttributeMapping" target="CARRID" source="CARRID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CONNID" source="CONNID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FLDATE" source="FLDATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="BOOKID" source="BOOKID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMID" source="CUSTOMID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LOCCURKEY" source="LOCCURKEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LOCCURAM" source="LOCCURAM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DATE_SQL" source="DATE_SQL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="YEAR_INT" source="YEAR_INT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="MONTH_INT" source="MONTH_INT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_NAME" source="CUSTOM_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_CITY" source="CUSTOM_CITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_COUNTRY" source="CUSTOM_COUNTRY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_REGION" source="CUSTOM_REGION"/>
+      <mapping xsi:type="Calculation:ConstantAttributeMapping" target="YEAR_TYPE" null="false" value="Current Year"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CY_AMOUNT" source="LOCCURAM"/>
+      <mapping xsi:type="Calculation:ConstantAttributeMapping" target="PY_AMOUNT" null="false" value="0"/>
+    </input>
+    <input node="Proj_PY" emptyUnionBehavior="NO_ROW">
+      <mapping xsi:type="Calculation:AttributeMapping" target="CARRID" source="CARRID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CONNID" source="CONNID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FLDATE" source="FLDATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="BOOKID" source="BOOKID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMID" source="CUSTOMID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LOCCURKEY" source="LOCCURKEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LOCCURAM" source="LOCCURAM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DATE_SQL" source="DATE_SQL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="YEAR_INT" source="YEAR_INT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="MONTH_INT" source="MONTH_INT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_NAME" source="CUSTOM_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_CITY" source="CUSTOM_CITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_COUNTRY" source="CUSTOM_COUNTRY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_REGION" source="CUSTOM_REGION"/>
+      <mapping xsi:type="Calculation:ConstantAttributeMapping" target="YEAR_TYPE" null="false" value="Previous Year"/>
+      <mapping xsi:type="Calculation:ConstantAttributeMapping" target="CY_AMOUNT" null="false" value="0"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PY_AMOUNT" source="LOCCURAM"/>
+    </input>
+  </calculationView>
+</calculationViews>
+
+<logicalModel id="Union_1">
+  <attributes>
+    <attribute id="CARRID" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CARRID"/>
+      <keyMapping columnObjectName="Union_1" columnName="CARRID"/>
+    </attribute>
+    <attribute id="CONNID" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CONNID"/>
+      <keyMapping columnObjectName="Union_1" columnName="CONNID"/>
+    </attribute>
+    <attribute id="BOOKID" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="BOOKID"/>
+      <keyMapping columnObjectName="Union_1" columnName="BOOKID"/>
+    </attribute>
+    <attribute id="FLDATE" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="FLDATE"/>
+      <keyMapping columnObjectName="Union_1" columnName="FLDATE"/>
+    </attribute>
+    <attribute id="DATE_SQL" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DATE_SQL"/>
+      <keyMapping columnObjectName="Union_1" columnName="DATE_SQL"/>
+    </attribute>
+    <attribute id="YEAR_INT" order="6" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="YEAR_INT"/>
+      <keyMapping columnObjectName="Union_1" columnName="YEAR_INT"/>
+    </attribute>
+    <attribute id="MONTH_INT" order="7" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="MONTH_INT"/>
+      <keyMapping columnObjectName="Union_1" columnName="MONTH_INT"/>
+    </attribute>
+    <attribute id="CUSTOMID" order="8" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTOMID"/>
+      <keyMapping columnObjectName="Union_1" columnName="CUSTOMID"/>
+    </attribute>
+    <attribute id="CUSTOM_NAME" order="9" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="NAME"/>
+      <keyMapping columnObjectName="Union_1" columnName="CUSTOM_NAME"/>
+    </attribute>
+    <attribute id="CUSTOM_CITY" order="10" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CITY"/>
+      <keyMapping columnObjectName="Union_1" columnName="CUSTOM_CITY"/>
+    </attribute>
+    <attribute id="CUSTOM_COUNTRY" order="11" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="COUNTRY"/>
+      <keyMapping columnObjectName="Union_1" columnName="CUSTOM_COUNTRY"/>
+    </attribute>
+    <attribute id="CUSTOM_REGION" order="12" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="REGION"/>
+      <keyMapping columnObjectName="Union_1" columnName="CUSTOM_REGION"/>
+    </attribute>
+    <attribute id="YEAR_TYPE" order="13" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="YEAR_TYPE"/>
+      <keyMapping columnObjectName="Union_1" columnName="YEAR_TYPE"/>
+    </attribute>
+    <attribute id="LOCCURKEY" order="14" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="LOCCURKEY"/>
+      <keyMapping columnObjectName="Union_1" columnName="LOCCURKEY"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures>
+    <measure id="LOCCURAM" order="15" aggregationType="sum" measureType="simple" restrictionExpressionLanguage="SQL">
+      <descriptions defaultDescription="LOCCURAM"/>
+      <measureMapping columnObjectName="Union_1" columnName="LOCCURAM"/>
+      <exceptionAggregationMetadata/>
+    </measure>
+    <measure id="CY_AMOUNT" order="16" aggregationType="sum" measureType="simple" restrictionExpressionLanguage="SQL">
+      <descriptions defaultDescription="LOCCURAM"/>
+      <measureMapping columnObjectName="Union_1" columnName="CY_AMOUNT"/>
+      <exceptionAggregationMetadata/>
+    </measure>
+    <measure id="PY_AMOUNT" order="17" aggregationType="sum" measureType="simple" restrictionExpressionLanguage="SQL">
+      <descriptions defaultDescription="LOCCURAM"/>
+      <measureMapping columnObjectName="Union_1" columnName="PY_AMOUNT"/>
+      <exceptionAggregationMetadata/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+  <localDimensions/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+    
+  
+    <shape expanded="true" modelObjectName="Proj_CY" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="-100" y="369"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="Proj_PY" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="230" y="381"/>
+      <rectangleSize width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Union_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="80" y="215"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

@@ -1,0 +1,104 @@
+{
+    "ServiceName_1": {
+        "object_owner": {
+            "schema_privileges": [
+                {   
+                    "privileges_with_grant_option": [
+                        "SELECT","INSERT", "UPDATE"
+                    ]
+                }
+            ],
+            "global_object_privileges":[
+                {
+                   "name":"SYSRDL#CG_SOURCE",
+                   "type":"REMOTE SOURCE",
+                   "privileges":[
+                      "CREATE VIRTUAL TABLE",
+                      "REMOTE EXECUTE",
+                      "REMOTE TABLE ADMIN"
+                   ]
+                },
+                {
+                    "name":"SQLSERVER_SOURCE",
+                    "type":"REMOTE SOURCE",
+                    "privileges":[
+                        "ALTER",
+                        "DROP",
+                        "CREATE REMOTE SUBSCRIPTION",
+                        "CREATE VIRTUAL FUNCTION",
+                        "CREATE VIRTUAL PROCEDURE",	
+                        "CREATE VIRTUAL TABLE",
+                        "REMOTE EXECUTE",
+                        "REMOTE TABLE ADMIN",
+                        "PROCESS REMOTE SUBSCRIPTION EXCEPTION"
+                    ]
+                 },
+                 {
+                     "name":"SQL_TRIG_SOURCE",
+                     "type":"REMOTE SOURCE",
+                     "privileges":[
+                         "ALTER",
+                         "DROP",
+                         "CREATE REMOTE SUBSCRIPTION",
+                         "CREATE VIRTUAL FUNCTION",
+                         "CREATE VIRTUAL PROCEDURE",	
+                         "CREATE VIRTUAL TABLE",
+                         "REMOTE EXECUTE",
+                         "REMOTE TABLE ADMIN",
+                         "PROCESS REMOTE SUBSCRIPTION EXCEPTION"
+                     ]
+                  }
+             ]
+        },
+        "application_user": {
+            "schema_privileges": [
+                {
+                    "privileges": [
+                        "SELECT","INSERT", "UPDATE"
+                    ]
+                }
+            ],
+            "global_object_privileges":[
+                {
+                   "name":"SYSRDL#CG_SOURCE",
+                   "type":"REMOTE SOURCE",
+                   "privileges":[
+                      "CREATE VIRTUAL TABLE",
+                      "REMOTE EXECUTE",
+                      "REMOTE TABLE ADMIN"
+                   ]
+                },
+                {
+                    "name":"SQLSERVER_SOURCE",
+                    "type":"REMOTE SOURCE",
+                    "privileges":[
+                        "ALTER",
+                        "DROP",
+                        "CREATE REMOTE SUBSCRIPTION",
+                        "CREATE VIRTUAL FUNCTION",
+                        "CREATE VIRTUAL PROCEDURE",	
+                        "CREATE VIRTUAL TABLE",
+                        "REMOTE EXECUTE",
+                        "REMOTE TABLE ADMIN",
+                        "PROCESS REMOTE SUBSCRIPTION EXCEPTION"
+                    ]
+                 },
+                 {
+                     "name":"SQL_TRIG_SOURCE",
+                     "type":"REMOTE SOURCE",
+                     "privileges":[
+                         "ALTER",
+                         "DROP",
+                         "CREATE REMOTE SUBSCRIPTION",
+                         "CREATE VIRTUAL FUNCTION",
+                         "CREATE VIRTUAL PROCEDURE",	
+                         "CREATE VIRTUAL TABLE",
+                         "REMOTE EXECUTE",
+                         "REMOTE TABLE ADMIN",
+                         "PROCESS REMOTE SUBSCRIPTION EXCEPTION"
+                     ]
+                  }
+            ]
+        }
+    }
+}

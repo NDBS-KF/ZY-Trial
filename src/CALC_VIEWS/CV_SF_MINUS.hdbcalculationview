@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="CV_SF_MINUS" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" hierarchyGeneration="SQL" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="true">
+<descriptions defaultDescription="CV_SF_MINUS"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="CV_SF_BOOKING">
+    <resourceUri>CV_SF_BOOKING</resourceUri>
+  </DataSource>
+  <DataSource id="Proj_PY$$$$CV_SF_BOOKING$$">
+    <resourceUri>CV_SF_BOOKING</resourceUri>
+  </DataSource>
+</dataSources>
+<snapshotProcedures/>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Proj_CY" filterExpressionLanguage="SQL">
+    <viewAttributes>
+      <viewAttribute id="YEAR_INT"/>
+      <viewAttribute id="CUSTOMID"/>
+      <viewAttribute id="CUSTOM_NAME"/>
+      <viewAttribute id="CUSTOM_COUNTRY"/>
+      <viewAttribute id="CUSTOM_REGION"/>
+      <viewAttribute id="AMOUNT"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="CV_SF_BOOKING">
+      <mapping xsi:type="Calculation:AttributeMapping" target="AMOUNT" source="LOCCURAM"/>
+    </input>
+    <filter>&quot;YEAR_INT&quot; = 2012</filter>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Proj_PY" filterExpressionLanguage="SQL">
+    <viewAttributes>
+      <viewAttribute id="YEAR_INT"/>
+      <viewAttribute id="CUSTOMID"/>
+      <viewAttribute id="CUSTOM_NAME"/>
+      <viewAttribute id="CUSTOM_COUNTRY"/>
+      <viewAttribute id="CUSTOM_REGION"/>
+      <viewAttribute id="AMOUNT"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Proj_PY$$$$CV_SF_BOOKING$$">
+      <mapping xsi:type="Calculation:AttributeMapping" target="AMOUNT" source="LOCCURAM"/>
+    </input>
+    <filter>&quot;YEAR_INT&quot; = 1995</filter>
+  </calculationView>
+  <calculationView xsi:type="Calculation:MinusView" id="Minus_1">
+    <viewAttributes>
+      <viewAttribute id="CUSTOMID"/>
+      <viewAttribute id="CUSTOM_NAME"/>
+      <viewAttribute id="CUSTOM_COUNTRY"/>
+      <viewAttribute id="CUSTOM_REGION"/>
+      <viewAttribute id="AMOUNT" aggregationType="sum"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Proj_CY">
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMID" source="CUSTOMID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_NAME" source="CUSTOM_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="AMOUNT" source="AMOUNT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_COUNTRY" source="CUSTOM_COUNTRY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_REGION" source="CUSTOM_REGION"/>
+    </input>
+    <input node="Proj_PY">
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMID" source="CUSTOMID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_NAME" source="CUSTOM_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="AMOUNT" source="AMOUNT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_COUNTRY" source="CUSTOM_COUNTRY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_REGION" source="CUSTOM_REGION"/>
+    </input>
+  </calculationView>
+</calculationViews>
+
+<logicalModel id="Minus_1">
+  <attributes>
+    <attribute id="CUSTOMID" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTOMID"/>
+      <keyMapping columnObjectName="Minus_1" columnName="CUSTOMID"/>
+    </attribute>
+    <attribute id="CUSTOM_NAME" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTOM_NAME"/>
+      <keyMapping columnObjectName="Minus_1" columnName="CUSTOM_NAME"/>
+    </attribute>
+    <attribute id="CUSTOM_COUNTRY" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTOM_COUNTRY"/>
+      <keyMapping columnObjectName="Minus_1" columnName="CUSTOM_COUNTRY"/>
+    </attribute>
+    <attribute id="CUSTOM_REGION" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTOM_REGION"/>
+      <keyMapping columnObjectName="Minus_1" columnName="CUSTOM_REGION"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures>
+    <measure id="AMOUNT" order="5" aggregationType="sum" measureType="simple" restrictionExpressionLanguage="SQL">
+      <descriptions defaultDescription="AMOUNT"/>
+      <measureMapping columnObjectName="Minus_1" columnName="AMOUNT"/>
+      <exceptionAggregationMetadata/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+  <localDimensions/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+    
+  
+    <shape expanded="true" modelObjectName="Proj_CY" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="-32" y="383"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="Proj_PY" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="234" y="391"/>
+      <rectangleSize width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Minus_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="84" y="234"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

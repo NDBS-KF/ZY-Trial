@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="CV_SF_INTERSECT" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" hierarchyGeneration="SQL" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="true">
+<descriptions defaultDescription="CV_SF_INTERSECT"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="CV_SF_BOOKING">
+    <resourceUri>CV_SF_BOOKING</resourceUri>
+  </DataSource>
+  <DataSource id="Proj_PY$$$$CV_SF_BOOKING$$">
+    <resourceUri>CV_SF_BOOKING</resourceUri>
+  </DataSource>
+</dataSources>
+<snapshotProcedures/>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Proj_CY" filterExpressionLanguage="SQL">
+    <viewAttributes>
+      <viewAttribute id="YEAR_INT"/>
+      <viewAttribute id="CUSTOMID"/>
+      <viewAttribute id="CUSTOM_NAME"/>
+      <viewAttribute id="CUSTOM_COUNTRY"/>
+      <viewAttribute id="CUSTOM_REGION"/>
+      <viewAttribute id="AMOUNT"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="CV_SF_BOOKING">
+      <mapping xsi:type="Calculation:AttributeMapping" target="AMOUNT" source="LOCCURAM"/>
+    </input>
+    <filter>&quot;YEAR_INT&quot; = 1995</filter>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Proj_PY" filterExpressionLanguage="SQL">
+    <viewAttributes>
+      <viewAttribute id="YEAR_INT"/>
+      <viewAttribute id="CUSTOMID"/>
+      <viewAttribute id="CUSTOM_NAME"/>
+      <viewAttribute id="CUSTOM_COUNTRY"/>
+      <viewAttribute id="CUSTOM_REGION"/>
+      <viewAttribute id="AMOUNT"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Proj_PY$$$$CV_SF_BOOKING$$">
+      <mapping xsi:type="Calculation:AttributeMapping" target="AMOUNT" source="LOCCURAM"/>
+    </input>
+    <filter>&quot;YEAR_INT&quot; = 2012</filter>
+  </calculationView>
+  <calculationView xsi:type="Calculation:IntersectView" id="Intersect_1">
+    <viewAttributes>
+      <viewAttribute id="YEAR_INT" aggregationType="sum"/>
+      <viewAttribute id="CUSTOMID"/>
+      <viewAttribute id="CUSTOM_NAME"/>
+      <viewAttribute id="CUSTOM_COUNTRY"/>
+      <viewAttribute id="CUSTOM_REGION"/>
+      <viewAttribute id="AMOUNT" aggregationType="sum"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Proj_CY">
+      <mapping xsi:type="Calculation:AttributeMapping" target="YEAR_INT" source="YEAR_INT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMID" source="CUSTOMID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_NAME" source="CUSTOM_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_COUNTRY" source="CUSTOM_COUNTRY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_REGION" source="CUSTOM_REGION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="AMOUNT" source="AMOUNT"/>
+    </input>
+    <input node="Proj_PY">
+      <mapping xsi:type="Calculation:AttributeMapping" target="YEAR_INT" source="YEAR_INT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMID" source="CUSTOMID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_NAME" source="CUSTOM_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_COUNTRY" source="CUSTOM_COUNTRY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOM_REGION" source="CUSTOM_REGION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="AMOUNT" source="AMOUNT"/>
+    </input>
+  </calculationView>
+</calculationViews>
+
+<logicalModel id="Intersect_1">
+  <attributes>
+    <attribute id="YEAR_INT" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="YEAR_INT"/>
+      <keyMapping columnObjectName="Intersect_1" columnName="YEAR_INT"/>
+    </attribute>
+    <attribute id="CUSTOMID" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTOMID"/>
+      <keyMapping columnObjectName="Intersect_1" columnName="CUSTOMID"/>
+    </attribute>
+    <attribute id="CUSTOM_NAME" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTOM_NAME"/>
+      <keyMapping columnObjectName="Intersect_1" columnName="CUSTOM_NAME"/>
+    </attribute>
+    <attribute id="CUSTOM_COUNTRY" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTOM_COUNTRY"/>
+      <keyMapping columnObjectName="Intersect_1" columnName="CUSTOM_COUNTRY"/>
+    </attribute>
+    <attribute id="CUSTOM_REGION" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTOM_REGION"/>
+      <keyMapping columnObjectName="Intersect_1" columnName="CUSTOM_REGION"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures>
+    <measure id="AMOUNT" order="6" aggregationType="sum" measureType="simple" restrictionExpressionLanguage="SQL">
+      <descriptions defaultDescription="AMOUNT"/>
+      <measureMapping columnObjectName="Intersect_1" columnName="AMOUNT"/>
+      <exceptionAggregationMetadata/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+  <localDimensions/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+    
+  
+    <shape expanded="true" modelObjectName="Proj_CY" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="-4" y="375"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="Proj_PY" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="200" y="375"/>
+      <rectangleSize width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Intersect_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="100" y="235"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

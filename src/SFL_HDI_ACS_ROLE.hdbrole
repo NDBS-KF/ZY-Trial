@@ -1,0 +1,12 @@
+{
+  "role": {
+    "name": "SFL_HDI_ACS_ROLE",
+    "schema_privileges": [
+      {
+        "privileges": [
+          "SELECT"
+        ]
+      }
+    ]
+  }
+}
